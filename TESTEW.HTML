@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Controle Remoto da Extensão</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    button { padding: 10px 20px; margin: 10px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Controle Remoto da Extensão</h1>
+  <button id="btnScrollUp">Rolar Para Cima</button>
+  <button id="btnScrollDown">Rolar Para Baixo</button>
+
+  <script>
+    // Substitua 'SEU_EXTENSION_ID' pelo ID real da sua extensão (encontrado em chrome://extensions/)
+    const EXTENSION_ID = 'npfhahcpomigajecjcjhangoigcibnae';
+
+    // Função para enviar a mensagem
+    function enviarComandoScroll(direcao) {
+      if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
+        chrome.runtime.sendMessage(EXTENSION_ID, { action: "scroll", direction: direcao }, (response) => {
+          console.log("Resposta da extensão:", response);
+        });
+      } else {
+        console.error("A API chrome.runtime não está disponível. Certifique-se de que o site está autorizado a se comunicar com a extensão.");
+      }
+    }
+
+    document.getElementById('btnScrollUp').addEventListener('click', () => {
+      enviarComandoScroll("up");
+    });
+
+    document.getElementById('btnScrollDown').addEventListener('click', () => {
+      enviarComandoScroll("down");
+    });
+  </script>
+</body>
+</html>
+v
